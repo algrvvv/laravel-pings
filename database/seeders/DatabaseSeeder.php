@@ -22,6 +22,12 @@ class DatabaseSeeder extends Seeder
              'password' => Hash::make('password')
          ]);
 
-        Domain::factory(5)->create();
+        Domain::factory()->create([
+            "name" => "google.com"
+        ]);
+
+        Domain::factory()->create([
+            "name" => "ya.ru"
+        ]);
     }
 }
