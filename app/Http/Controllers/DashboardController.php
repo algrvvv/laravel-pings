@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): \Inertia\Response|\Inertia\ResponseFactory
     {
-        //TODO сделать пагинацию
-        $info = PingResource::collection(Ping::latest()->paginate(20))->resolve();
+        //TODO сделать пагинацию на стороне vue
+
+        //Ping::latest()->paginate(20)
+        $info = PingResource::collection(Ping::latest()->get())->resolve();
         return inertia('Dashboard', compact('info'));
     }
 }
