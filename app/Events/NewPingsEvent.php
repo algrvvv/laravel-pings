@@ -17,12 +17,15 @@ class NewPingsEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private Ping $ping;
+    private int $domainId;
+
     /**
      * Create a new event instance.
      */
-    public function __construct(Ping $ping)
+    public function __construct(Ping $ping, int $domainId)
     {
         $this->ping = $ping;
+        $this->domainId = $domainId;
     }
 
     /**
@@ -33,7 +36,7 @@ class NewPingsEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('new-ping'),
+            new Channel("new-ping-$this->domainId"),
         ];
     }
 
@@ -53,7 +56,7 @@ class NewPingsEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'info' => PingResource::make($this->ping)->resolve()
+            'pings' => PingResource::make($this->ping)->resolve()
         ];
     }
 }

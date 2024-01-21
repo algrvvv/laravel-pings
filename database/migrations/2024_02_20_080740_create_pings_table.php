@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('pings', function (Blueprint $table) {
             $table->id();
-            $table->string('domain');
             $table->string('info');
+            $table->foreignId('domain_id')->constrained();
             $table->timestamps();
         });
     }

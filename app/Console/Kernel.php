@@ -24,17 +24,23 @@ class Kernel extends ConsoleKernel
                 $flag = "-c";
             }
 
-            //TODO добавить проверку на кол-во пингов, чтобы иногда чистить бд
-
             foreach ($domains as $domain) {
+                $di = $domain->id;
                 $dn = $domain->name;
-                $out = trim(exec(escapeshellcmd("ping $flag 3 $dn")));
+                $out = trim(exec(escapeshellcmd("ping $flag 1 $dn")));
+                $array_out = explode(', ', $out);
+                if (str_contains($array_out[2], 'Lost')) {
+                    $answer = str_replace('Lost = 1 ', '', $array_out[2]);
+                } else {
+                    $answer = str_replace('Average = ', '', $array_out[2]);
+                }
+
                 $ping = Ping::create([
-                   "domain" => $dn,
-                    "info"  => $out
+                    "info"  => $answer,
+                    "domain_id" => $di
                 ]);
 
-                broadcast(new NewPingsEvent($ping));
+                broadcast(new NewPingsEvent($ping, $di));
             }
         })->everyMinute();
     }

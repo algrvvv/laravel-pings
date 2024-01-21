@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Domain;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,9 +17,10 @@ class PingResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "domain" => $this->domain,
+            //TODO удалить домен
             "info" => $this->info,
             "time" => $this->created_at->diffForHumans(),
+            "chartTime" => $this->created_at->format('H:i:s'),
         ];
     }
 }
