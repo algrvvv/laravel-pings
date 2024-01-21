@@ -19,28 +19,24 @@ export default {
         return {
             dataInfo: [],
             dataTime: [],
-            timer: ""
         }
     },
 
     mounted() {
         this.update();
         this.drawChart();
+        // setInterval(this.drawChart, 3000);
     },
 
     created() {
-        // this.update();
-        // this.timer = setInterval(this.drawChart, 3000);
         Echo.channel(`new-ping-${this.domain.id}`)
             .listen('.new-ping', res => {
-                console.log(res);
                 this.pings.unshift(res.pings);
             });
     },
 
     methods: {
         update() {
-            console.log("update");
             for (let i = 0; i < this.pings.length; i++) {
                 let info = this.pings[i].info.replace('ms', '');
                 this.dataInfo.push(parseInt(info));
@@ -49,7 +45,6 @@ export default {
         },
 
         drawChart() {
-            console.log("draw");
             const ctx = document.getElementById('myChart');
 
             new Chart(ctx, {
