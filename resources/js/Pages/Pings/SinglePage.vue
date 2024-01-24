@@ -53,7 +53,7 @@ export default {
                     labels: this.dataTime.sort(),
                     datasets: [{
                         label: '# Load Time',
-                        data: this.dataInfo,
+                        data: this.dataInfo.sort(),
                         borderWidth: 1
                     }]
                 },
